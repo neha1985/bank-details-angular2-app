@@ -1,0 +1,20 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Bank Details</h2>
+    <br/>
+    <form name="form" (ngSubmit)="f.form.valid && getDetails()" #f="ngForm" novalidate>
+        <div class="form-group">
+            <label for="code">BLZ Code</label>
+            <input type="text" class="form-control" name="code" [(ngModel)]="code" required />
+        </div><br/>
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+    <br/><br/>
+    <div *ngIf="bankDetail!==undefined" [(ngModel)]="bankDetail">
+        <span [ngStyle]="{'font-weight':'bold'}"> Bank Name: </span><span>  {{bankDetail.designation}}</span><br/>
+        <span [ngStyle]="{'font-weight':'bold'}"> Code: </span><span>  {{bankDetail.bankIdentifierCode}} </span><br/>
+        <span [ngStyle]="{'font-weight':'bold'}"> Place: </span><span>  {{bankDetail.place}} </span><br/>
+        <span [ngStyle]="{'font-weight':'bold'}"> Post Code: </span><span>  {{bankDetail.postCode}} </span><br/>
+    </div>
+</div>
