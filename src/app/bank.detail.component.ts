@@ -1,6 +1,6 @@
 import { BankDetail } from './models/bankDetails';
 import { BankDetailService } from './services/bank.detail.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-details',
@@ -10,18 +10,27 @@ import { Component, OnInit } from '@angular/core';
 export class BankDetailsComponent implements OnInit {
   bankDetail: BankDetail;
   code: string;
-  constructor(private bankDetailService: BankDetailService) {
+  error: string;
+  constructor(private bankDetailService: BankDetailService, private ref: ChangeDetectorRef) {
 
   }
 
-  ngOnInit() {    
+  ngOnInit() {
   }
 
-  getDetails(){
-      this.bankDetailService.get(this.code).subscribe((res) => {
-      this.bankDetail = res.responseObject;  
-      console.log(this.bankDetail)     ;
+  getDetails() {
+    this.bankDetailService.get(this.code).subscribe((res) => {
+      if (res.responseType == 'ERROR') {
+        this.error = res.responseObject;
+        this.bankDetail = undefined;
+      } else {
+        if (res.responseObject != null) {
+          this.bankDetail = res.responseObject;
+          this.error = undefined;
+        }
+      }
+      this.ref.markForCheck();
     });
-  }  
+  }
 
 }
